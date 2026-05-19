@@ -1,0 +1,25 @@
+### Target 등록
+POST http://localhost:8080/api/targets
+Content-Type: application/json
+
+{
+  "url": "https://news.ycombinator.com",
+  "name": "해커뉴스",
+  "intervalMinutes": 60,
+  "contentSelector": "table.itemlist"
+}
+
+### 전체 조회
+GET http://localhost:8080/api/targets
+
+### 단건 조회
+GET http://localhost:8080/api/targets/1
+
+### 비활성화
+PATCH http://localhost:8080/api/targets/1/deactivate
+
+### 활성화
+PATCH http://localhost:8080/api/targets/1/activate
+
+### 삭제
+DELETE http://localhost:8080/api/targets/1
