@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Scout Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f6fa;
+        }
+
+        .card-box {
+            border-radius: 12px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,.08);
+        }
+
+        .status-ok {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-fail {
+            color: red;
+            font-weight: bold;
+        }
+
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            position: fixed;
+            background: #1f2937;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin-top: 15px;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h3>Scout</h3>
+
+    <a href="#">대시보드</a>
+    <a href="#">URL 관리</a>
+    <a href="#">체크 이력</a>
+    <a href="#">설정</a>
+</div>
+
+<div class="content">
+
+    <h2>대시보드</h2>
+    <hr>
+
+    <div class="row mb-4">
+
+        <div class="col">
+            <div class="card-box">
+                <h5>전체 URL</h5>
+                <h2 th:text="${totalCount}">10</h2>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card-box">
+                <h5>정상</h5>
+                <h2 class="status-ok" th:text="${successCount}">8</h2>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card-box">
+                <h5>장애</h5>
+                <h2 class="status-fail" th:text="${failCount}">2</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card-box">
+
+        <div class="d-flex justify-content-between mb-3">
+            <h4>URL 상태</h4>
+
+            <a href="/urls/new" class="btn btn-primary">
+                URL 등록
+            </a>
+        </div>
+
+        <table class="table table-hover">
+
+            <thead>
+            <tr>
+                <th>이름</th>
+                <th>URL</th>
+                <th>상태</th>
+                <th>응답시간</th>
+                <th>상태코드</th>
+                <th>최근 체크</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="url : ${urls}">
+
+                <td th:text="${url.name}">Google</td>
+
+                <td th:text="${url.url}">
+                    https://google.com
+                </td>
+
+                <td>
+                    <span th:if="${url.success}" class="badge bg-success">
+                        정상
+                    </span>
+
+                    <span th:unless="${url.success}" class="badge bg-danger">
+                        장애
+                    </span>
+                </td>
+
+                <td th:text="${url.responseTime + ' ms'}">
+                    123ms
+                </td>
+
+                <td th:text="${url.statusCode}">
+                    200
+                </td>
+
+                <td th:text="${url.checkedAt}">
+                    2026-06-16 00:30
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
